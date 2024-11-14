@@ -1,32 +1,5 @@
-/* CSS for styling the webpage */
-
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
+    margin: 0;
+    background: pink;
     text-align: center;
-    padding: 20px;
-}
-
-h1 {
-    color: #333;
-    font-size: 2em;
-}
-
-p {
-    color: #666;
-    font-size: 1.2em;
-}
-
-button {
-    padding: 10px 20px;
-    font-size: 1em;
-    color: #fff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #0056b3;
 }
