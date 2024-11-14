@@ -11,25 +11,29 @@ function adjustBPM(change) {
     bpm += change;
     bpm = Math.min(300, Math.max(15, bpm));
     document.getElementById('bpm-input').value = bpm;
+    validateBPM(); // Check BPM validity
 }
 
-// Validate BPM on input blur, clamping it between 15 and 300
-function validateBPMOnBlur() {
-    let input = document.getElementById('bpm-input');
+// Validate BPM input in real-time and toggle OK button
+function validateBPM() {
+    const input = document.getElementById('bpm-input');
+    const startButton = document.getElementById('start-button');
+
     bpm = parseInt(input.value) || bpm;
-    if (bpm < 15) bpm = 15;
-    if (bpm > 300) bpm = 300;
-    input.value = bpm;
+
+    // Disable the OK button if BPM is out of range
+    if (bpm < 15 || bpm > 300) {
+        startButton.disabled = true;
+        startButton.style.opacity = "0.5"; // Grey out the button
+    } else {
+        startButton.disabled = false;
+        startButton.style.opacity = "1"; // Restore normal appearance
+    }
 }
 
 // Start metronome and navigate to the touch interaction page
 function startMetronome() {
     bpm = parseInt(document.getElementById('bpm-input').value) || bpm;
-    if (bpm < 15 || bpm > 300) {
-        document.getElementById('hint-message').style.display = "block";
-        return;
-    }
-    document.getElementById('hint-message').style.display = "none";
     document.getElementById('bpm-display').textContent = bpm;
     showPage('metronome-page');
 }
@@ -54,7 +58,11 @@ function adjustRandomBPM() {
     document.getElementById('bpm-display').textContent = bpm;
 }
 
-// Ensure only page refresh retains state without persistent storage
+// Ensure consistent BPM validation on page load
 window.onload = () => {
     showPage('bpm-page');
+    validateBPM(); // Initial validation to set button state correctly
 };
+
+// Add an event listener to validate BPM on input change
+document.getElementById('bpm-input').addEventListener('input', validateBPM);
