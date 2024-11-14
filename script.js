@@ -1,9 +1,33 @@
-// Initialize BPM to a default of 60
+// Initialize BPM and set up audio
 let bpm = 60;
+let metronomeInterval;
+const beepSound = new Audio('beep.mp3');
 
 // Display initial BPM value in both the input box and display area
 document.getElementById('bpm-input').value = bpm;
 document.getElementById('bpm-display').textContent = bpm;
+
+// Function to start metronome
+function startMetronome() {
+    bpm = parseInt(document.getElementById('bpm-input').value) || bpm;
+    document.getElementById('bpm-display').textContent = bpm;
+    
+    // Calculate interval in milliseconds based on BPM
+    const interval = 60000 / bpm;
+
+    // Start playing the beep sound at the calculated interval
+    stopMetronome(); // Ensure no multiple intervals
+    metronomeInterval = setInterval(() => {
+        beepSound.play();
+    }, interval);
+
+    showPage('metronome-page');
+}
+
+// Function to stop the metronome
+function stopMetronome() {
+    clearInterval(metronomeInterval);
+}
 
 // Adjust BPM by pressing the +/- buttons
 function adjustBPM(change) {
@@ -11,7 +35,7 @@ function adjustBPM(change) {
     bpm += change;
     bpm = Math.min(300, Math.max(15, bpm));
     document.getElementById('bpm-input').value = bpm;
-    validateBPM(); // Check BPM validity
+    validateBPM();
 }
 
 // Validate BPM input in real-time and toggle OK button
@@ -31,38 +55,36 @@ function validateBPM() {
     }
 }
 
-// Start metronome and navigate to the touch interaction page
-function startMetronome() {
-    bpm = parseInt(document.getElementById('bpm-input').value) || bpm;
-    document.getElementById('bpm-display').textContent = bpm;
-    showPage('metronome-page');
-}
-
-// Navigate back to BPM adjustment page
-function goBack() {
-    showPage('bpm-page');
-    document.getElementById('bpm-input').value = bpm; // Set the input to the current BPM
-}
-
-// Show the specified page and hide the other
-function showPage(pageId) {
-    document.getElementById('bpm-page').style.display = pageId === 'bpm-page' ? 'flex' : 'none';
-    document.getElementById('metronome-page').style.display = pageId === 'metronome-page' ? 'flex' : 'none';
-}
-
 // Adjust BPM randomly on the touch area click (1-10 units)
 function adjustRandomBPM() {
     let randomChange = Math.floor(Math.random() * 10) + 1;
     bpm += Math.random() < 0.5 ? -randomChange : randomChange;
     bpm = Math.min(300, Math.max(15, bpm)); // Clamp between 15 and 300
     document.getElementById('bpm-display').textContent = bpm;
+
+    // Update interval if the metronome is running
+    if (metronomeInterval) {
+        startMetronome();
+    }
 }
 
 // Ensure consistent BPM validation on page load
 window.onload = () => {
     showPage('bpm-page');
-    validateBPM(); // Initial validation to set button state correctly
+    validateBPM();
 };
 
-// Add an event listener to validate BPM on input change
+// Event listener for validating BPM
 document.getElementById('bpm-input').addEventListener('input', validateBPM);
+
+// Event listener for stopping the metronome when going back
+document.getElementById('back-button').addEventListener('click', () => {
+    stopMetronome();
+    goBack();
+});
+
+// Function to show the specified page and hide the other
+function showPage(pageId) {
+    document.getElementById('bpm-page').style.display = pageId === 'bpm-page' ? 'flex' : 'none';
+    document.getElementById('metronome-page').style.display = pageId === 'metronome-page' ? 'flex' : 'none';
+}
