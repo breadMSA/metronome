@@ -1,45 +1,78 @@
 // Initialize BPM and state variables
 let bpm = 60;
-let metronomeInterval;
+let timer;
+let noteCount = 0;
 let isMetronomeRunning = false;
-const beepFile = 'beep.mp3';
+let curTime = 0.0;
 
-// Display initial BPM value in both the input box and display area
+// Set up AudioContext
+window.AudioContext = window.AudioContext || window.webkitAudioContext;
+const context = new AudioContext();
+const accentPitch = 380; // Frequency in Hz for the primary beat
+const offBeatPitch = 200; // Frequency in Hz for secondary beat
+
+// Display initial BPM in both input box and display area
 document.getElementById('bpm-input').value = bpm;
 document.getElementById('bpm-display').textContent = bpm;
-
-// Create a new audio object each time and play the sound
-function playBeepSound() {
-    const beepSound = new Audio(beepFile);
-    beepSound.play().catch(error => {
-        console.log("Error playing beep sound:", error);
-    });
-}
 
 // Function to start the metronome
 function startMetronome() {
     bpm = parseInt(document.getElementById('bpm-input').value) || bpm;
     document.getElementById('bpm-display').textContent = bpm;
-    
-    // Calculate interval in milliseconds based on BPM
-    const interval = 60000 / bpm;
 
-    // Stop any existing interval to avoid overlaps
+    // Ensure there are no overlapping intervals
     stopMetronome();
 
-    // Start a new interval to play the beep sound
-    metronomeInterval = setInterval(() => {
-        playBeepSound();
-    }, interval);
-
+    // Set the initial metronome time and schedule the notes
+    curTime = context.currentTime;
+    noteCount = 0;
     isMetronomeRunning = true;
+    schedule();
+
+    // Switch to metronome page
     showPage('metronome-page');
 }
 
 // Function to stop the metronome
 function stopMetronome() {
-    clearInterval(metronomeInterval);
+    clearTimeout(timer);
     isMetronomeRunning = false;
+}
+
+// Function to schedule the metronome notes
+function schedule() {
+    while (curTime < context.currentTime + 0.1) { // Look-ahead window of 0.1 seconds
+        playNoteAt(curTime); // Schedule the beep sound
+        updateTime(); // Update time for the next beep
+    }
+
+    // Set a timeout to keep scheduling in small intervals
+    timer = setTimeout(schedule, 50);
+}
+
+// Function to play a note at the specified time
+function playNoteAt(t) {
+    const note = context.createOscillator();
+    const gainNode = context.createGain();
+
+    // Set frequency for the beat (accent or off-beat)
+    note.frequency.value = noteCount === 0 ? accentPitch : offBeatPitch;
+
+    // Set duration of the note
+    note.connect(gainNode);
+    gainNode.connect(context.destination);
+    gainNode.gain.setValueAtTime(0.1, t); // Set the volume
+    note.start(t);
+    note.stop(t + 0.05); // 50 ms duration
+
+    // Update UI dot animation or any other indicators if needed
+}
+
+// Function to update the time for each metronome tick
+function updateTime() {
+    const interval = 60.0 / bpm;
+    curTime += interval;
+    noteCount = (noteCount + 1) % 4; // Adjust this if time signature changes
 }
 
 // Adjust BPM by pressing the +/- buttons
@@ -50,7 +83,7 @@ function adjustBPM(change) {
     document.getElementById('bpm-input').value = bpm;
     validateBPM();
 
-    // If metronome is running, update interval with new BPM
+    // If metronome is running, update the scheduling
     if (isMetronomeRunning) {
         startMetronome();
     }
@@ -80,7 +113,7 @@ function adjustRandomBPM() {
     bpm = Math.min(300, Math.max(15, bpm)); // Clamp between 15 and 300
     document.getElementById('bpm-display').textContent = bpm;
 
-    // If metronome is running, update interval with new BPM
+    // If metronome is running, update the scheduling
     if (isMetronomeRunning) {
         startMetronome();
     }
