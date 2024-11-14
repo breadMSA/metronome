@@ -1,46 +1,45 @@
-// Initialize BPM and set up initial state
+// Initialize BPM and state variables
 let bpm = 60;
+let metronomeInterval;
 let isMetronomeRunning = false;
-let metronomeTimeout;
 const beepFile = 'beep.mp3';
 
 // Display initial BPM value in both the input box and display area
 document.getElementById('bpm-input').value = bpm;
 document.getElementById('bpm-display').textContent = bpm;
 
-// Function to play the metronome sound at the specified BPM
-function playMetronome() {
-    if (!isMetronomeRunning) return;
-
-    // Create a new Audio object each time to avoid blocking
+// Create a new audio object each time and play the sound
+function playBeepSound() {
     const beepSound = new Audio(beepFile);
-    beepSound.play();
-
-    // Calculate the interval in milliseconds based on BPM
-    const interval = 60000 / bpm;
-
-    // Use setTimeout instead of setInterval for better timing precision
-    metronomeTimeout = setTimeout(playMetronome, interval);
+    beepSound.play().catch(error => {
+        console.log("Error playing beep sound:", error);
+    });
 }
 
-// Start metronome and navigate to the touch interaction page
+// Function to start the metronome
 function startMetronome() {
     bpm = parseInt(document.getElementById('bpm-input').value) || bpm;
     document.getElementById('bpm-display').textContent = bpm;
+    
+    // Calculate interval in milliseconds based on BPM
+    const interval = 60000 / bpm;
 
-    // Start the metronome only if it's not already running
-    if (!isMetronomeRunning) {
-        isMetronomeRunning = true;
-        playMetronome();
-    }
+    // Stop any existing interval to avoid overlaps
+    stopMetronome();
 
+    // Start a new interval to play the beep sound
+    metronomeInterval = setInterval(() => {
+        playBeepSound();
+    }, interval);
+
+    isMetronomeRunning = true;
     showPage('metronome-page');
 }
 
-// Stop the metronome
+// Function to stop the metronome
 function stopMetronome() {
+    clearInterval(metronomeInterval);
     isMetronomeRunning = false;
-    clearTimeout(metronomeTimeout); // Clear the timeout to stop the sound
 }
 
 // Adjust BPM by pressing the +/- buttons
@@ -51,9 +50,8 @@ function adjustBPM(change) {
     document.getElementById('bpm-input').value = bpm;
     validateBPM();
 
-    // Update interval if the metronome is running
+    // If metronome is running, update interval with new BPM
     if (isMetronomeRunning) {
-        stopMetronome();
         startMetronome();
     }
 }
@@ -82,9 +80,8 @@ function adjustRandomBPM() {
     bpm = Math.min(300, Math.max(15, bpm)); // Clamp between 15 and 300
     document.getElementById('bpm-display').textContent = bpm;
 
-    // Update interval if the metronome is running
+    // If metronome is running, update interval with new BPM
     if (isMetronomeRunning) {
-        stopMetronome();
         startMetronome();
     }
 }
