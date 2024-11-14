@@ -1,9 +1,9 @@
 // Initialize BPM and state variables
 let bpm = 60;
+let timer;
+let noteCount = 0;
 let isMetronomeRunning = false;
 let curTime = 0.0;
-let noteCount = 0;
-let timerId;
 
 // Set up AudioContext
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -15,44 +15,7 @@ const offBeatPitch = 200; // Frequency in Hz for secondary beat
 document.getElementById('bpm-input').value = bpm;
 document.getElementById('bpm-display').textContent = bpm;
 
-// Function to start the metronome
-function startMetronome() {
-    bpm = parseInt(document.getElementById('bpm-input').value) || bpm;
-    document.getElementById('bpm-display').textContent = bpm;
-
-    // Clear any previous timer and initialize time
-    stopMetronome();
-    curTime = context.currentTime;
-    noteCount = 0;
-    isMetronomeRunning = true;
-
-    // Start the scheduling loop
-    schedule();
-    showPage('metronome-page');
-}
-
-// Function to stop the metronome
-function stopMetronome() {
-    if (timerId) {
-        cancelAnimationFrame(timerId);
-    }
-    isMetronomeRunning = false;
-}
-
-// Function to schedule the metronome notes
-function schedule() {
-    if (!isMetronomeRunning) return; // Stop if metronome is not running
-
-    while (curTime < context.currentTime + 0.1) { // Look-ahead window of 0.1 seconds
-        playNoteAt(curTime); // Schedule the beep sound
-        updateTime(); // Update time for the next beep
-    }
-
-    // Use requestAnimationFrame to continue the loop
-    timerId = requestAnimationFrame(schedule);
-}
-
-// Function to play a note at the specified time
+// Function to play the metronome sound at the specified time
 function playNoteAt(t) {
     const note = context.createOscillator();
     const gainNode = context.createGain();
@@ -66,6 +29,8 @@ function playNoteAt(t) {
     gainNode.gain.setValueAtTime(0.1, t); // Set the volume
     note.start(t);
     note.stop(t + 0.05); // 50 ms duration
+
+    // Update UI dot animation or any other indicators if needed
 }
 
 // Function to update the time for each metronome tick
@@ -75,18 +40,51 @@ function updateTime() {
     noteCount = (noteCount + 1) % 4; // Adjust this if time signature changes
 }
 
-// Adjust BPM by pressing the +/- buttons
+// Function to start the metronome
+function startMetronome() {
+    bpm = parseInt(document.getElementById('bpm-input').value) || bpm;
+    document.getElementById('bpm-display').textContent = bpm;
+
+    // Ensure there are no overlapping intervals
+    stopMetronome();
+
+    // Set the initial metronome time and schedule the notes
+    curTime = context.currentTime;
+    noteCount = 0;
+    isMetronomeRunning = true;
+    schedule();
+
+    // Switch to metronome page
+    showPage('metronome-page');
+}
+
+// Function to stop the metronome
+function stopMetronome() {
+    clearTimeout(timer);
+    isMetronomeRunning = false;
+}
+
+// Function to schedule the metronome notes
+function schedule() {
+    while (curTime < context.currentTime + 0.1) { // Look-ahead window of 0.1 seconds
+        playNoteAt(curTime); // Schedule the beep sound
+        updateTime(); // Update time for the next beep
+    }
+
+    // Set a timeout to keep scheduling in small intervals
+    timer = setTimeout(schedule, 50);
+}
+
+// Adjust BPM by pressing the +/- buttons and restart the metronome
 function adjustBPM(change) {
+    stopMetronome(); // Stop metronome first to allow smooth adjustment
     bpm = parseInt(document.getElementById('bpm-input').value) || bpm;
     bpm += change;
     bpm = Math.min(300, Math.max(15, bpm));
     document.getElementById('bpm-input').value = bpm;
     validateBPM();
 
-    // If metronome is running, update scheduling with new BPM
-    if (isMetronomeRunning) {
-        startMetronome();
-    }
+    startMetronome(); // Restart metronome with the new BPM
 }
 
 // Validate BPM input in real-time and toggle OK button
@@ -106,17 +104,16 @@ function validateBPM() {
     }
 }
 
-// Adjust BPM randomly on the touch area click (1-10 units)
+// Adjust BPM randomly on the touch area click, stop and restart metronome
 function adjustRandomBPM() {
+    stopMetronome(); // Stop the metronome immediately before adjustment
+
     let randomChange = Math.floor(Math.random() * 10) + 1;
     bpm += Math.random() < 0.5 ? -randomChange : randomChange;
     bpm = Math.min(300, Math.max(15, bpm)); // Clamp between 15 and 300
     document.getElementById('bpm-display').textContent = bpm;
 
-    // If metronome is running, update scheduling with new BPM
-    if (isMetronomeRunning) {
-        startMetronome();
-    }
+    startMetronome(); // Restart metronome with the new BPM
 }
 
 // Ensure consistent BPM validation on page load
