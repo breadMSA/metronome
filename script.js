@@ -2,7 +2,7 @@
 let bpm = 60;
 let isMetronomeRunning = false;
 let metronomeTimeout;
-const beepFile = 'beep.mp3';
+const beepFile = 'beep.wav';
 
 // Display initial BPM value in both the input box and display area
 document.getElementById('bpm-input').value = bpm;
