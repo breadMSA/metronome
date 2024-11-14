@@ -3,18 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple HTML + CSS + JavaScript Example</title>
-    <!-- Link to the CSS file -->
+    <title>Metronome for Piano Learners</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Welcome to My Webpage</h1>
-    <p>This is a simple example of a webpage with separate HTML, CSS, and JavaScript files.</p>
-    
-    <!-- Button that triggers the JavaScript function -->
-    <button onclick="addMessage()">Click Me!</button>
+    <!-- BPM Adjustment Page (Page 1) -->
+    <div id="bpm-page" class="page">
+        <h1>Set Your BPM</h1>
+        <p>You can only choose from 15 to 300</p>
+        <div class="bpm-adjust">
+            <button onclick="adjustBPM(-1)">-</button>
+            <input type="number" id="bpm-input" value="60" min="15" max="300" oninput="validateBPM()">
+            <button onclick="adjustBPM(1)">+</button>
+        </div>
+        <button id="start-button" onclick="startMetronome()">OK</button>
+    </div>
 
-    <!-- Link to the JavaScript file -->
+    <!-- Touch Interaction Page (Page 2) -->
+    <div id="metronome-page" class="page" style="display: none;">
+        <button id="back-button" onclick="goBack()">← Go Back</button>
+        <h1>BPM: <span id="bpm-display">60</span></h1>
+        <div id="touch-area" onclick="adjustRandomBPM()">Tap to Adjust BPM</div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
