@@ -13,7 +13,7 @@
         <p>You can only choose from 15 to 300</p>
         <div class="bpm-adjust">
             <button onclick="adjustBPM(-1)">-</button>
-            <input type="number" id="bpm-input" value="60" min="15" max="300" onblur="validateBPMOnBlur()">
+            <input type="number" id="bpm-input" value="60" onblur="validateBPMOnBlur()">
             <button onclick="adjustBPM(1)">+</button>
         </div>
         <button id="start-button" onclick="startMetronome()">OK</button>
