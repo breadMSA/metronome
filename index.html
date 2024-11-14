@@ -13,10 +13,11 @@
         <p>You can only choose from 15 to 300</p>
         <div class="bpm-adjust">
             <button onclick="adjustBPM(-1)">-</button>
-            <input type="number" id="bpm-input" value="60" min="15" max="300" oninput="validateBPM()">
+            <input type="number" id="bpm-input" value="60" min="15" max="300" onblur="validateBPMOnBlur()">
             <button onclick="adjustBPM(1)">+</button>
         </div>
         <button id="start-button" onclick="startMetronome()">OK</button>
+        <p id="hint-message" style="color: red; display: none;">BPM must be between 15 and 300.</p>
     </div>
 
     <!-- Touch Interaction Page (Page 2) -->
