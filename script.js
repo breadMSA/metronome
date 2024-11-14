@@ -1,12 +1,17 @@
-// JavaScript function to change the background color when the button is clicked
+// JavaScript function to add a new message to the page when the button is clicked
 
-function changeBackgroundColor() {
-    // Array of colors to cycle through
-    const colors = ["#f4f4f9", "#ffadad", "#ffd6a5", "#fdffb6", "#caffbf", "#9bf6ff", "#a0c4ff", "#bdb2ff", "#ffc6ff"];
+function addMessage() {
+    // Create a new paragraph element
+    const newMessage = document.createElement("p");
     
-    // Generate a random index to pick a color
-    const randomIndex = Math.floor(Math.random() * colors.length);
+    // Set the content of the paragraph
+    newMessage.textContent = "This is a new message!";
     
-    // Set the background color of the body
-    document.body.style.backgroundColor = colors[randomIndex];
+    // Style the new message (optional)
+    newMessage.style.color = "#007bff";
+    newMessage.style.fontSize = "1.1em";
+    newMessage.style.fontWeight = "bold";
+    
+    // Add the new message to the body of the page
+    document.body.appendChild(newMessage);
 }
