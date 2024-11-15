@@ -97,16 +97,15 @@ function adjustRandomBPM() {
         void greetingMessage.offsetWidth; // Force reflow to reset the animation
         greetingMessage.classList.add('animate'); // Reapply the class
 
-        // Hide the greeting after animation ends (2 seconds)
+        // Ensure it stays visible for the full animation duration (e.g., 3 seconds)
         setTimeout(() => {
             greetingMessage.style.display = 'none';
             greetingMessage.classList.remove('animate'); // Ensure it's clean for next use
-        }, 2000);
+        }, 3000); // Match the animation duration
     }
 
     startMetronome();
 }
-
 
 
 // Toggle dark mode
