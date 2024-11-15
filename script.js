@@ -141,19 +141,37 @@ function goBack() {
 }
 
 function toggleDarkMode() {
-    document.body.classList.toggle('dark-mode');
-    const isDarkMode = document.body.classList.contains('dark-mode');
-    localStorage.setItem('darkMode', isDarkMode ? 'enabled' : 'disabled');
-}
+    const body = document.body;
+    const button = document.getElementById('mode-toggle');
 
-// Load dark mode preference
-function loadDarkModePreference() {
-    const darkMode = localStorage.getItem('darkMode');
-    if (darkMode === 'enabled') {
-        document.body.classList.add('dark-mode');
-        document.getElementById('mode-toggle').checked = true;
+    if (body.classList.contains('dark-mode')) {
+        body.classList.remove('dark-mode');
+        button.textContent = '🌞';  // Switch to sun emoji for light mode
+        localStorage.setItem('darkMode', 'disabled');
+    } else {
+        body.classList.add('dark-mode');
+        button.textContent = '🌜';  // Switch to moon emoji for dark mode
+        localStorage.setItem('darkMode', 'enabled');
     }
 }
+
+function loadDarkModePreference() {
+    const darkMode = localStorage.getItem('darkMode');
+    const button = document.getElementById('mode-toggle');
+
+    if (darkMode === 'enabled') {
+        document.body.classList.add('dark-mode');
+        button.textContent = '🌜';  // Moon for dark mode
+    } else {
+        document.body.classList.remove('dark-mode');
+        button.textContent = '🌞';  // Sun for light mode
+    }
+}
+
+window.onload = () => {
+    loadDarkModePreference();
+};
+
 
 // Show specified page and hide others
 function showPage(pageId) {
