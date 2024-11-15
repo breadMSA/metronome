@@ -1,5 +1,4 @@
 /* Default Light Mode */
-/* Default Light Mode */
 body {
     overflow: hidden; /* Prevent scrolling */
     text-align: center;
@@ -11,44 +10,41 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
 }
 
-/* Dark Mode */
+/* Dark Mode Styles */
 body.dark-mode {
     background-color: #222; /* Dark mode background */
     color: #f7f7f7; /* Dark mode text */
 }
 
-/* Toggle Button */
+/* Toggle Button Styles */
 #mode-toggle {
     cursor: pointer;
-    font-size: 2.5rem;
-    margin: 10px;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
+    font-size: 2.5rem; /* Icon size */
+    margin: 20px; /* Space around the icon */
     width: 60px; /* Circular button size */
     height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 50%; /* Circular button */
-    background-color: #f7f7f7; /* Light mode button */
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Light shadow */
+    background-color: #f7f7f7; /* Light mode button background */
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional shadow */
 }
 
-/* Dark Mode Toggle Button */
+/* Dark Mode Toggle Button Styles */
 body.dark-mode #mode-toggle {
-    background-color: #333; /* Dark mode button */
-    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.2); /* White shadow */
+    background-color: #333; /* Dark mode button background */
 }
 
-/* Toggle Icon (Sun/Moon) */
+/* Icon Styles */
 #mode-icon {
-    transition: transform 0.3s ease, color 0.3s ease; /* Smooth transition for effects */
-    color: #333; /* Default sun color */
+    transition: transform 0.3s ease; /* Smooth rotation for effect */
 }
 
-/* Dark Mode Icon */
+/* Rotate the icon for visual feedback */
 body.dark-mode #mode-icon {
-    color: #f39c12; /* Moon color */
-    transform: rotate(180deg); /* Rotate for effect */
+    transform: rotate(180deg); /* Rotate effect for dark mode */
 }
 
 /* General Page Styles */
