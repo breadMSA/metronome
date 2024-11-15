@@ -13,6 +13,18 @@ body {
     cursor: pointer;
     font-size: 2rem;
     margin: 10px;
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    border-radius: 50%;
+    background-color: #f7f7f7; /* Light mode background */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+body.dark-mode #mode-toggle {
+    background-color: #333; /* Dark mode background */
 }
 
 #mode-icon {
@@ -20,9 +32,10 @@ body {
 }
 
 body.dark-mode #mode-icon {
-    transform: rotate(180deg); /* Rotate for transition effect */
+    transform: rotate(180deg); /* Rotate the icon for effect */
     color: #f39c12; /* Moon color */
 }
+
 
 /* Dark Mode Styles */
 body.dark-mode {
