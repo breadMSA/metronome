@@ -1,11 +1,14 @@
-// Initialize variables
+// Initialize variables for AudioContext, BPM, and Metronome
 let bpm = 60;
 let isMetronomeRunning = false;
-let metronomeInterval;
 let audioContext;
-let beepBuffer;
+let beepBuffer; // Stores the audio buffer for the beep sound
+let nextBeepTime = 0; // When the next beep should play
+let beepInterval;
+const lookahead = 25.0; // Scheduler lookahead in milliseconds
+const scheduleAheadTime = 0.1; // How far ahead to schedule audio in seconds
 
-// Load beep sound
+// Load the beep sound file as an Audio Buffer
 async function loadBeepSound() {
     audioContext = new (window.AudioContext || window.webkitAudioContext)();
     const response = await fetch('beep.mp3');
@@ -13,65 +16,88 @@ async function loadBeepSound() {
     beepBuffer = await audioContext.decodeAudioData(arrayBuffer);
 }
 
-// Play beep sound
-function playBeep() {
+// Start playing the metronome
+function startMetronome() {
+    if (isMetronomeRunning) return; // Prevent double starting
+    isMetronomeRunning = true;
+
+    // Calculate interval in seconds based on BPM
+    beepInterval = 60.0 / bpm;
+    nextBeepTime = audioContext.currentTime;
+
+    scheduler(); // Begin the scheduling loop
+}
+
+// Stop the metronome
+function stopMetronome() {
+    isMetronomeRunning = false;
+    clearTimeout(schedulerTimer); // Stop the scheduler loop
+}
+
+// Scheduler to manage precise audio timing
+let schedulerTimer;
+function scheduler() {
+    if (!isMetronomeRunning) return;
+
+    // Schedule beep sounds ahead of time
+    while (nextBeepTime < audioContext.currentTime + scheduleAheadTime) {
+        scheduleBeep(nextBeepTime); // Schedule the beep sound
+        nextBeepTime += beepInterval; // Increment for the next beep
+    }
+
+    // Set up the next scheduler call
+    schedulerTimer = setTimeout(scheduler, lookahead);
+}
+
+// Function to schedule a beep at a specified time
+function scheduleBeep(time) {
     const source = audioContext.createBufferSource();
     source.buffer = beepBuffer;
     source.connect(audioContext.destination);
-    source.start(0);
+    source.start(time);
 }
 
-// Start metronome
-function startMetronome() {
-    if (isMetronomeRunning) return;
-    isMetronomeRunning = true;
-
-    const interval = 60000 / bpm; // Calculate interval in milliseconds
-    metronomeInterval = setInterval(() => {
-        playBeep();
-    }, interval);
-}
-
-// Stop metronome
-function stopMetronome() {
-    clearInterval(metronomeInterval);
-    isMetronomeRunning = false;
-}
-
-// Adjust BPM via buttons
+// Function to adjust BPM and restart the metronome
 function adjustBPM(change) {
+    stopMetronome(); // Stop metronome immediately
+
+    bpm = parseInt(document.getElementById('bpm-input').value) || bpm;
     bpm += change;
-    bpm = Math.max(15, Math.min(300, bpm));
+    bpm = Math.min(300, Math.max(15, bpm));
     document.getElementById('bpm-input').value = bpm;
     validateBPM();
+
+    startMetronome(); // Restart with the new BPM
 }
 
-// Validate BPM and enable/disable OK button
+// Real-time BPM validation and OK button enable/disable
 function validateBPM() {
-    const bpmInput = document.getElementById('bpm-input');
+    const input = document.getElementById('bpm-input');
     const startButton = document.getElementById('start-button');
-    bpm = parseInt(bpmInput.value);
 
-    if (bpm < 15 || bpm > 300 || isNaN(bpm)) {
+    bpm = parseInt(input.value) || bpm;
+
+    // Disable the OK button if BPM is out of range
+    if (bpm < 15 || bpm > 300) {
         startButton.disabled = true;
-        startButton.style.opacity = '0.5';
+        startButton.style.opacity = "0.5"; // Grey out the button
     } else {
         startButton.disabled = false;
-        startButton.style.opacity = '1';
+        startButton.style.opacity = "1"; // Restore normal appearance
     }
 }
 
-// Start metronome from adjustment page
+// Function for starting metronome from the adjustment page
 function startMetronomeFromAdjustPage() {
-    if (bpm < 15 || bpm > 300) return;
+    bpm = parseInt(document.getElementById('bpm-input').value) || bpm;
     document.getElementById('bpm-display').textContent = bpm;
-
-    stopMetronome();
-    startMetronome();
+    
+    stopMetronome(); // Ensure metronome is stopped before starting
+    startMetronome(); // Start with current BPM
     showPage('metronome-page');
 }
 
-// Adjust BPM randomly on Tap button
+// Random BPM adjustment on the touch area click (1-10 units)
 function adjustRandomBPM() {
     stopMetronome(); // Stop immediately
 
@@ -81,69 +107,29 @@ function adjustRandomBPM() {
 
     document.getElementById('bpm-display').textContent = bpm;
     startMetronome(); // Restart with new BPM
-
-    // Display greeting if enabled
-    const greetingToggle = document.getElementById('greeting-toggle').checked;
-    if (greetingToggle) {
-        const greetings = ["幹", "操", "你在彈三小", "?", "去你的", "靠邀"];
-        const randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
-        const greetingMessage = document.getElementById('greeting-message');
-
-        // Set the greeting text and reset animation
-        greetingMessage.textContent = randomGreeting;
-        greetingMessage.style.display = 'block';
-
-        // Reset animation by removing and re-adding the class
-        greetingMessage.classList.remove('animate'); // Remove the class
-        void greetingMessage.offsetWidth; // Force reflow to reset the animation
-        greetingMessage.classList.add('animate'); // Reapply the class
-
-        // Ensure it stays visible for the full animation duration (e.g., 3 seconds)
-        setTimeout(() => {
-            greetingMessage.style.display = 'none';
-            greetingMessage.classList.remove('animate'); // Ensure it's clean for next use
-        }, 3000); // Match the animation duration
-    }
 }
 
-
-// Toggle dark mode
-function toggleDarkMode() {
-    document.body.classList.toggle('dark-mode');
-    const isDarkMode = document.body.classList.contains('dark-mode');
-    localStorage.setItem('darkMode', isDarkMode ? 'enabled' : 'disabled');
+// Navigation to BPM adjustment page with metronome stop
+function goBack() {
+    stopMetronome(); // Stop immediately
+    showPage('bpm-page');
+    document.getElementById('bpm-input').value = bpm; // Display current BPM in input
 }
 
-// Load dark mode preference
-function loadDarkModePreference() {
-    const darkMode = localStorage.getItem('darkMode');
-    if (darkMode === 'enabled') {
-        document.body.classList.add('dark-mode');
-        document.getElementById('mode-toggle').checked = true;
-    }
-}
-
-// Navigate between pages
+// Show specified page and hide others
 function showPage(pageId) {
     document.getElementById('bpm-page').style.display = pageId === 'bpm-page' ? 'flex' : 'none';
     document.getElementById('metronome-page').style.display = pageId === 'metronome-page' ? 'flex' : 'none';
 }
 
-// Go back to adjustment page
-function goBack() {
-    stopMetronome();
-    showPage('bpm-page');
-    document.getElementById('bpm-input').value = bpm;
-}
-
-// Initialize page
+// Initial setup on page load
 window.onload = async () => {
-    loadDarkModePreference();
-    await loadBeepSound();
-    validateBPM();
     showPage('bpm-page');
+    await loadBeepSound(); // Load beep sound for the AudioContext
+    validateBPM();
 };
 
-// Event listeners
-document.getElementById('mode-toggle').addEventListener('click', toggleDarkMode);
+// BPM input validation and metronome start from adjustment page
 document.getElementById('bpm-input').addEventListener('input', validateBPM);
+document.getElementById('start-button').addEventListener('click', startMetronomeFromAdjustPage);
+document.getElementById('back-button').addEventListener('click', goBack);
