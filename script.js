@@ -84,7 +84,7 @@ function adjustRandomBPM() {
     // Display greeting if enabled
     const greetingToggle = document.getElementById('greeting-toggle').checked;
     if (greetingToggle) {
-        const greetings = ["嗨", "你好", "早上好", "fork use", "?"];
+        const greetings = ["幹", "操", "你在彈三小", "?", "去你的", "靠邀"];
         const randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
         const greetingMessage = document.getElementById('greeting-message');
 
