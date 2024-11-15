@@ -116,6 +116,21 @@ function goBack() {
     document.getElementById('bpm-input').value = bpm; // Display current BPM in input
 }
 
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    const isDarkMode = document.body.classList.contains('dark-mode');
+    localStorage.setItem('darkMode', isDarkMode ? 'enabled' : 'disabled');
+}
+
+// Load dark mode preference
+function loadDarkModePreference() {
+    const darkMode = localStorage.getItem('darkMode');
+    if (darkMode === 'enabled') {
+        document.body.classList.add('dark-mode');
+        document.getElementById('mode-toggle').checked = true;
+    }
+}
+
 // Show specified page and hide others
 function showPage(pageId) {
     document.getElementById('bpm-page').style.display = pageId === 'bpm-page' ? 'flex' : 'none';
