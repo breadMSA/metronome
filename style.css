@@ -10,42 +10,36 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
 }
 
-/* Dark Mode Styles */
+/* Dark Mode */
 body.dark-mode {
     background-color: #222; /* Dark mode background */
     color: #f7f7f7; /* Dark mode text */
 }
 
-/* Toggle Button Styles */
+/* Dark/Light Mode Toggle Button */
 #mode-toggle {
-    position: fixed;
-    top: 10px;
-    right: 10px;
     cursor: pointer;
     font-size: 2.5rem;
+    margin: 10px;
     width: 60px;
     height: 60px;
-    display: flex;
+    display: flex; /* Flexbox for centering the icon */
     justify-content: center;
     align-items: center;
     border-radius: 50%; /* Circular button */
-    background-color: #f7f7f7; /* Light mode button background */
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    background-color: inherit; /* Matches the current theme */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth animation */
+    border: 2px solid #ccc; /* Optional border for visibility */
 }
 
-body.dark-mode #mode-toggle {
-    background-color: #333; /* Dark mode button background */
-    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.2);
-}
-
+/* Icon Styling */
 #mode-icon {
-    transition: transform 0.3s ease, color 0.3s ease; /* Smooth rotation and color */
+    color: inherit; /* Matches the current theme */
+    transition: transform 0.3s ease; /* Smooth rotation for dark mode */
 }
 
 body.dark-mode #mode-icon {
-    transform: rotate(180deg); /* Rotate for effect */
-    color: #f39c12; /* Moon color for dark mode */
+    transform: rotate(180deg); /* Rotates when toggling dark mode */
 }
 
 /* General Page Styles */
@@ -57,6 +51,7 @@ body.dark-mode #mode-icon {
     height: 100vh;
 }
 
+/* Buttons and Inputs */
 .bpm-adjust {
     display: flex;
     align-items: center;
@@ -81,6 +76,7 @@ body.dark-mode #mode-icon {
     cursor: pointer;
 }
 
+/* Touchable Area */
 #touch-area {
     width: 80%;
     max-width: 300px;
@@ -129,7 +125,7 @@ body.dark-mode #mode-icon {
     animation: shrinkFade 3s forwards;
 }
 
-/* Additional Styling for Toggle Container */
+/* Optional Toggle Container */
 .toggle-container {
     margin: 10px;
 }
