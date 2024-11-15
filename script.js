@@ -108,38 +108,21 @@ function adjustRandomBPM() {
 }
 
 
-// Toggle dark mode and update the icon
+// Toggle dark mode
 function toggleDarkMode() {
-    const body = document.body;
-    const modeIcon = document.getElementById('mode-icon');
-
-    // Toggle the dark-mode class on the body
-    const isDarkMode = body.classList.toggle('dark-mode');
-
-    // Change the icon based on the mode
-    modeIcon.textContent = isDarkMode ? '🌙' : '☀️';
+    document.body.classList.toggle('dark-mode');
+    const isDarkMode = document.body.classList.contains('dark-mode');
+    localStorage.setItem('darkMode', isDarkMode ? 'enabled' : 'disabled');
 }
 
-// Load the user's preference on page load
+// Load dark mode preference
 function loadDarkModePreference() {
-    const darkModePreference = localStorage.getItem('darkMode');
-    const body = document.body;
-    const modeIcon = document.getElementById('mode-icon');
-
-    // Apply the saved preference
-    if (darkModePreference === 'enabled') {
-        body.classList.add('dark-mode');
-        modeIcon.textContent = '🌙'; // Set the moon icon
-    } else {
-        body.classList.remove('dark-mode');
-        modeIcon.textContent = '☀️'; // Set the sun icon
+    const darkMode = localStorage.getItem('darkMode');
+    if (darkMode === 'enabled') {
+        document.body.classList.add('dark-mode');
+        document.getElementById('mode-toggle').checked = true;
     }
 }
-
-// Ensure the preference is applied when the page loads
-document.addEventListener('DOMContentLoaded', loadDarkModePreference);
-
-
 
 // Navigate between pages
 function showPage(pageId) {
