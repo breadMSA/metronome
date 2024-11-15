@@ -1,5 +1,7 @@
 /* Default Light Mode */
 body {
+    overflow: hidden; /* Prevent scrolling */
+    text-align: center;
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
