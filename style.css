@@ -1,4 +1,5 @@
 /* Default Light Mode */
+/* Default Light Mode */
 body {
     overflow: hidden; /* Prevent scrolling */
     text-align: center;
@@ -18,18 +19,28 @@ body.dark-mode {
 
 /* Dark/Light Mode Toggle Button */
 #mode-toggle {
+    position: fixed; /* Stay in a fixed position */
+    bottom: 20px; /* Position at the bottom */
+    right: 20px; /* Position to the right */
     cursor: pointer;
     font-size: 2.5rem;
-    margin: 10px;
-    width: 60px;
+    width: 60px; /* Circular button size */
     height: 60px;
-    display: flex; /* Flexbox for centering the icon */
+    display: flex; /* Flexbox to center the icon */
     justify-content: center;
     align-items: center;
     border-radius: 50%; /* Circular button */
-    background-color: inherit; /* Matches the current theme */
-    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth animation */
+    background-color: #f7f7f7; /* Light mode button background */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
     border: 2px solid #ccc; /* Optional border for visibility */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Shadow for visibility */
+}
+
+/* Dark Mode Button */
+body.dark-mode #mode-toggle {
+    background-color: #333; /* Dark mode button background */
+    border-color: #f7f7f7; /* Adjust border for visibility */
+    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.2); /* Light shadow for dark mode */
 }
 
 /* Icon Styling */
@@ -38,8 +49,9 @@ body.dark-mode {
     transition: transform 0.3s ease; /* Smooth rotation for dark mode */
 }
 
+/* Rotate the icon in dark mode */
 body.dark-mode #mode-icon {
-    transform: rotate(180deg); /* Rotates when toggling dark mode */
+    transform: rotate(180deg); /* Rotation effect */
 }
 
 /* General Page Styles */
