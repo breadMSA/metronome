@@ -87,9 +87,12 @@ function validateBPM() {
 
 // Function for starting metronome from the adjustment page
 function startMetronomeFromAdjustPage() {
-    bpm = parseInt(document.getElementById('bpm-input').value);
+    bpm = parseInt(document.getElementById('bpm-input').value) || bpm;
     document.getElementById('bpm-display').textContent = bpm;
-    startMetronome(); // This should only be called when explicitly starting the metronome
+    
+    stopMetronome(); // Ensure metronome is stopped before starting
+    startMetronome(); // Start with current BPM
+    showPage('metronome-page');
 }
 
 // Random BPM adjustment on the touch area click (1-10 units)
