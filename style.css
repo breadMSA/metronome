@@ -89,7 +89,7 @@ body.dark-mode {
     transform: translate(-50%, -50%);
     font-size: 25vw; /* Default size */
     font-weight: bold;
-    color: #ff0000;
+    color: #007bff;
     opacity: 0; /* Start invisible */
     pointer-events: none; /* Prevent interaction */
 }
