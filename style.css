@@ -1,48 +1,48 @@
 /* Default Light Mode */
 body {
-    overflow: hidden; /* Prevent scrolling */
     font-family: Arial, sans-serif;
-    text-align: center;
     margin: 0;
     padding: 0;
-    background-color: #f7f7f7;
-    color: #333;
-    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
+    background-color: #f7f7f7; /* Light mode background */
+    color: #333; /* Light mode text */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
 }
 
 /* Dark Mode Styles */
 body.dark-mode {
-    background-color: #222; /* Dark background */
-    color: #f7f7f7; /* Light text for dark mode */
+    background-color: #222; /* Dark mode background */
+    color: #f7f7f7; /* Dark mode text */
 }
 
-/* Mode Toggle Styles */
+/* Toggle Button Styles */
 #mode-toggle {
+    position: fixed;
+    top: 10px;
+    right: 10px;
     cursor: pointer;
-    font-size: 2.5rem; /* Larger icon size */
-    margin: 10px auto; /* Center horizontally with margin */
-    display: flex; /* Use flexbox for alignment */
+    font-size: 2.5rem;
+    width: 60px;
+    height: 60px;
+    display: flex;
     justify-content: center;
     align-items: center;
-    width: 60px; /* Circular toggle button */
-    height: 60px;
-    border-radius: 50%; /* Circular shape */
-    background-color: #f7f7f7; /* Light mode background */
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional shadow */
+    border-radius: 50%; /* Circular button */
+    background-color: #f7f7f7; /* Light mode button background */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 body.dark-mode #mode-toggle {
-    background-color: #333; /* Dark mode toggle button */
-    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.2); /* Light shadow for dark mode */
+    background-color: #333; /* Dark mode button background */
+    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.2);
 }
 
 #mode-icon {
-    transition: transform 0.3s ease, color 0.3s ease;
+    transition: transform 0.3s ease, color 0.3s ease; /* Smooth rotation and color */
 }
 
 body.dark-mode #mode-icon {
-    transform: rotate(180deg); /* Rotate for a smooth transition */
+    transform: rotate(180deg); /* Rotate for effect */
     color: #f39c12; /* Moon color for dark mode */
 }
 
