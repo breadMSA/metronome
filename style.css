@@ -17,41 +17,38 @@ body.dark-mode {
     color: #f7f7f7; /* Dark mode text */
 }
 
-/* Dark/Light Mode Toggle Button */
+/* Toggle Button */
 #mode-toggle {
-    position: fixed; /* Stay in a fixed position */
-    bottom: 20px; /* Position at the bottom */
-    right: 20px; /* Position to the right */
     cursor: pointer;
     font-size: 2.5rem;
-    width: 60px; /* Circular button size */
-    height: 60px;
-    display: flex; /* Flexbox to center the icon */
+    margin: 10px;
+    display: inline-flex;
     justify-content: center;
     align-items: center;
+    width: 60px; /* Circular button size */
+    height: 60px;
     border-radius: 50%; /* Circular button */
-    background-color: #f7f7f7; /* Light mode button background */
-    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
-    border: 2px solid #ccc; /* Optional border for visibility */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Shadow for visibility */
+    background-color: #f7f7f7; /* Light mode button */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Light shadow */
 }
 
-/* Dark Mode Button */
+/* Dark Mode Toggle Button */
 body.dark-mode #mode-toggle {
-    background-color: #333; /* Dark mode button background */
-    border-color: #f7f7f7; /* Adjust border for visibility */
-    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.2); /* Light shadow for dark mode */
+    background-color: #333; /* Dark mode button */
+    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.2); /* White shadow */
 }
 
-/* Icon Styling */
+/* Toggle Icon (Sun/Moon) */
 #mode-icon {
-    color: inherit; /* Matches the current theme */
-    transition: transform 0.3s ease; /* Smooth rotation for dark mode */
+    transition: transform 0.3s ease, color 0.3s ease; /* Smooth transition for effects */
+    color: #333; /* Default sun color */
 }
 
-/* Rotate the icon in dark mode */
+/* Dark Mode Icon */
 body.dark-mode #mode-icon {
-    transform: rotate(180deg); /* Rotation effect */
+    color: #f39c12; /* Moon color */
+    transform: rotate(180deg); /* Rotate for effect */
 }
 
 /* General Page Styles */
