@@ -1,14 +1,10 @@
-// Initialize variables for mode and appearance addition
+// Initialize variables
 let bpm = 60;
 let isMetronomeRunning = false;
 let audioContext;
 let beepBuffer;
-let nextBeepTime = 0;
-let beepInterval;
-const lookahead = 25.0;
-const scheduleAheadTime = 0.1;
 
-// Load the beep sound file and initialize AudioContext
+// Load beep sound file
 async function loadBeepSound() {
     audioContext = new (window.AudioContext || window.webkitAudioContext)();
     const response = await fetch('beep.mp3');
@@ -32,7 +28,23 @@ function loadDarkModePreference() {
     }
 }
 
-// Random Greeting Display
+// Start the metronome from BPM adjustment page
+function startMetronomeFromAdjustPage() {
+    bpm = parseInt(document.getElementById('bpm-input').value) || bpm;
+    document.getElementById('bpm-display').textContent = bpm;
+
+    stopMetronome(); // Ensure metronome is stopped before starting
+    startMetronome(); // Start metronome with current BPM
+    showPage('metronome-page'); // Navigate to metronome page
+}
+
+// Toggle greeting display based on checkbox
+function toggleGreeting() {
+    const greetingMessage = document.getElementById('greeting-message');
+    greetingMessage.style.display = 'none'; // Hide initially
+}
+
+// Random greeting messages for appearance addition
 const greetings = ["嗨", "你好", "早上好", "fork use", "?"];
 function displayRandomGreeting() {
     const greetingEnabled = document.getElementById('greeting-toggle').checked;
@@ -44,47 +56,32 @@ function displayRandomGreeting() {
     greetingMessage.style.display = 'block';
 }
 
-// Toggle Greeting Display based on user preference
-function toggleGreeting() {
-    const greetingMessage = document.getElementById('greeting-message');
-    greetingMessage.style.display = 'none'; // Hide initially
-}
-
-// Start and stop the metronome with AudioContext scheduling
-function startMetronome() { /* Existing metronome code */ }
-function stopMetronome() { /* Existing metronome code */ }
-
-// Adjust BPM and restart the metronome
-function adjustBPM(change) {
-    stopMetronome();
-    bpm = parseInt(document.getElementById('bpm-input').value) || bpm;
-    bpm += change;
-    bpm = Math.min(300, Math.max(15, bpm));
-    document.getElementById('bpm-input').value = bpm;
-    validateBPM();
-    startMetronome();
-}
-
-// BPM adjustment through the touch area, showing greeting if enabled
+// Adjust BPM through touch area, show greeting if enabled
 function adjustRandomBPM() {
     stopMetronome();
     let randomChange = Math.floor(Math.random() * 10) + 1;
     bpm += Math.random() < 0.5 ? -randomChange : randomChange;
     bpm = Math.min(300, Math.max(15, bpm));
     document.getElementById('bpm-display').textContent = bpm;
-    displayRandomGreeting(); // Show greeting message if enabled
+    displayRandomGreeting();
     startMetronome();
 }
 
-// Initialize the application on page load
+// Ensure consistent BPM validation on page load
 window.onload = async () => {
     showPage('bpm-page');
     await loadBeepSound();
-    loadDarkModePreference();
+    loadDarkModePreference(); // Load stored dark mode preference
     validateBPM();
 };
 
-// Event listeners for Dark Mode, Greeting Toggle, and BPM adjustment
+// Show specified page and hide the other
+function showPage(pageId) {
+    document.getElementById('bpm-page').style.display = pageId === 'bpm-page' ? 'flex' : 'none';
+    document.getElementById('metronome-page').style.display = pageId === 'metronome-page' ? 'flex' : 'none';
+}
+
+// Event listeners
 document.getElementById('mode-toggle').addEventListener('click', toggleDarkMode);
 document.getElementById('greeting-toggle').addEventListener('click', toggleGreeting);
 document.getElementById('bpm-input').addEventListener('input', validateBPM);
