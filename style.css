@@ -1,3 +1,4 @@
+/* Default Light Mode Styles */
 body {
     font-family: Arial, sans-serif;
     text-align: center;
@@ -7,6 +8,7 @@ body {
     color: #333;
 }
 
+/* Dark Mode Styles */
 body.dark-mode {
     background-color: #222;
     color: #f7f7f7;
