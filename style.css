@@ -95,6 +95,6 @@ body.dark-mode {
 }
 
 #greeting-message.animate {
-    animation: shrinkFade 2s forwards;
+    animation: shrinkFade 3s forwards;
 }
 
