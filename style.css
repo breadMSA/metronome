@@ -1,53 +1,20 @@
 /* Default Light Mode */
 body {
     overflow: hidden; /* Prevent scrolling */
-    text-align: center;
     font-family: Arial, sans-serif;
+    text-align: center;
     margin: 0;
     padding: 0;
-    background-color: #f7f7f7; /* Light mode background */
-    color: #333; /* Light mode text */
-    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+    background-color: #f7f7f7;
+    color: #333;
 }
 
 /* Dark Mode Styles */
 body.dark-mode {
-    background-color: #222; /* Dark mode background */
-    color: #f7f7f7; /* Dark mode text */
+    background-color: #222;
+    color: #f7f7f7;
 }
 
-/* Toggle Button Styles */
-#mode-toggle {
-    cursor: pointer;
-    font-size: 2.5rem; /* Icon size */
-    margin: 20px; /* Space around the icon */
-    width: 60px; /* Circular button size */
-    height: 60px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%; /* Circular button */
-    background-color: #f7f7f7; /* Light mode button background */
-    transition: background-color 0.3s ease;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional shadow */
-}
-
-/* Dark Mode Toggle Button Styles */
-body.dark-mode #mode-toggle {
-    background-color: #333; /* Dark mode button background */
-}
-
-/* Icon Styles */
-#mode-icon {
-    transition: transform 0.3s ease; /* Smooth rotation for effect */
-}
-
-/* Rotate the icon for visual feedback */
-body.dark-mode #mode-icon {
-    transform: rotate(180deg); /* Rotate effect for dark mode */
-}
-
-/* General Page Styles */
 .page {
     display: flex;
     flex-direction: column;
@@ -56,7 +23,6 @@ body.dark-mode #mode-icon {
     height: 100vh;
 }
 
-/* Buttons and Inputs */
 .bpm-adjust {
     display: flex;
     align-items: center;
@@ -81,7 +47,6 @@ body.dark-mode #mode-icon {
     cursor: pointer;
 }
 
-/* Touchable Area */
 #touch-area {
     width: 80%;
     max-width: 300px;
@@ -95,42 +60,41 @@ body.dark-mode #mode-icon {
     align-items: center;
     cursor: pointer;
     border-radius: 10px;
-    user-select: none; /* Disable text selection */
+    user-select: none;
 }
 
 #touch-area:hover {
     background-color: #0056b3;
 }
 
+.toggle-container {
+    margin: 10px;
+}
+
 /* Greeting Animation */
 @keyframes shrinkFade {
     0% {
-        font-size: 30vw; /* Start larger for emphasis */
+        font-size: 50vw; /* Large text fills the screen */
         opacity: 1; /* Fully visible */
     }
     100% {
-        font-size: 0; /* Shrink to nothing */
+        font-size: 0; /* Shrinks to nothing */
         opacity: 0; /* Fully transparent */
     }
 }
 
 #greeting-message {
     position: absolute;
-    top: 30%; /* Center vertically */
-    left: 50%; /* Center horizontally */
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 30vw; /* Default size for greeting */
+    font-size: 50vw; /* Default size */
     font-weight: bold;
-    color: #ff0000; /* Red color for emphasis */
-    opacity: 0; /* Initially invisible */
+    color: #ff0000;
+    opacity: 0; /* Start invisible */
     pointer-events: none; /* Prevent interaction */
 }
 
 #greeting-message.animate {
     animation: shrinkFade 3s forwards;
-}
-
-/* Optional Toggle Container */
-.toggle-container {
-    margin: 10px;
 }
