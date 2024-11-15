@@ -11,16 +11,17 @@ body {
 
 #mode-toggle {
     cursor: pointer;
-    font-size: 2rem;
+    font-size: 2.5rem; /* Larger icon size */
     margin: 10px;
-    display: inline-block;
-    width: 50px;
-    height: 50px;
-    text-align: center;
-    line-height: 50px;
-    border-radius: 50%;
+    display: flex; /* Use flexbox to center the icon */
+    justify-content: center;
+    align-items: center;
+    width: 60px; /* Larger width for easier clicking */
+    height: 60px; /* Larger height for easier clicking */
+    border-radius: 50%; /* Circular button */
     background-color: #f7f7f7; /* Light mode background */
     transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional shadow for aesthetics */
 }
 
 body.dark-mode #mode-toggle {
@@ -32,7 +33,7 @@ body.dark-mode #mode-toggle {
 }
 
 body.dark-mode #mode-icon {
-    transform: rotate(180deg); /* Rotate the icon for effect */
+    transform: rotate(180deg); /* Rotate for effect */
     color: #f39c12; /* Moon color */
 }
 
