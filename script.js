@@ -113,25 +113,14 @@ function toggleDarkMode() {
     const body = document.body;
     const modeIcon = document.getElementById('mode-icon');
 
-    // Print "hi" to the web to confirm the click works
-    const testDiv = document.createElement('div'); // Create a new div
-    testDiv.textContent = 'hi'; // Set the text content
-    testDiv.style.position = 'absolute'; // Position it on the screen
-    testDiv.style.top = '10px'; 
-    testDiv.style.right = '10px'; 
-    testDiv.style.backgroundColor = 'yellow'; // Make it visible
-    testDiv.style.padding = '10px';
-    testDiv.style.fontSize = '20px';
-    testDiv.style.border = '1px solid black';
-    document.body.appendChild(testDiv); // Add it to the body
-
-    // Remove the "hi" message after 2 seconds
-    setTimeout(() => {
-        document.body.removeChild(testDiv);
-    }, 2000);
+    // Debug log for the body class list
+    console.log('Before toggling:', body.classList);
 
     // Toggle the dark mode class
     const isDarkMode = body.classList.toggle('dark-mode');
+
+    // Debug log for the body class list
+    console.log('After toggling:', body.classList);
 
     // Update the icon based on the mode
     modeIcon.textContent = isDarkMode ? '🌙' : '☀️';
@@ -139,8 +128,6 @@ function toggleDarkMode() {
     // Save the user's preference in localStorage
     localStorage.setItem('darkMode', isDarkMode ? 'enabled' : 'disabled');
 }
-
-
 
 // Load the user's preference on page load
 function loadDarkModePreference() {
