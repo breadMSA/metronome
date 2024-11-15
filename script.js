@@ -88,20 +88,25 @@ function adjustRandomBPM() {
         const randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
         const greetingMessage = document.getElementById('greeting-message');
 
-        // Set the greeting text and apply animation
+        // Set the greeting text and reset animation
         greetingMessage.textContent = randomGreeting;
         greetingMessage.style.display = 'block';
-        greetingMessage.classList.add('animate');
 
-        // Remove the animation class after 2 seconds to reset for future clicks
+        // Reset animation by removing and re-adding the class
+        greetingMessage.classList.remove('animate'); // Remove the class
+        void greetingMessage.offsetWidth; // Force reflow to reset the animation
+        greetingMessage.classList.add('animate'); // Reapply the class
+
+        // Hide the greeting after animation ends (2 seconds)
         setTimeout(() => {
             greetingMessage.style.display = 'none';
-            greetingMessage.classList.remove('animate');
+            greetingMessage.classList.remove('animate'); // Ensure it's clean for next use
         }, 2000);
     }
 
     startMetronome();
 }
+
 
 
 // Toggle dark mode
