@@ -1,4 +1,4 @@
-/* Default Light Mode Styles */
+/* Default Light Mode */
 body {
     font-family: Arial, sans-serif;
     text-align: center;
@@ -68,10 +68,4 @@ body.dark-mode {
 
 .toggle-container {
     margin: 10px;
-}
-
-#greeting-message {
-    font-size: 1.2em;
-    color: #007bff;
-    margin-top: 15px;
 }
