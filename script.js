@@ -113,39 +113,30 @@ function toggleDarkMode() {
     const body = document.body;
     const modeIcon = document.getElementById('mode-icon');
 
-    // Debug log for the body class list
-    console.log('Before toggling:', body.classList);
-
-    // Toggle the dark mode class
+    // Toggle the dark mode class on the body
     const isDarkMode = body.classList.toggle('dark-mode');
 
-    // Debug log for the body class list
-    console.log('After toggling:', body.classList);
-
-    // Update the icon based on the mode
+    // Update the icon
     modeIcon.textContent = isDarkMode ? '🌙' : '☀️';
 
-    // Save the user's preference in localStorage
+    // Save the preference to localStorage
     localStorage.setItem('darkMode', isDarkMode ? 'enabled' : 'disabled');
 }
 
-// Load the user's preference on page load
 function loadDarkModePreference() {
-    const darkModePreference = localStorage.getItem('darkMode');
-    const body = document.body;
-    const modeIcon = document.getElementById('mode-icon');
+    const darkModePreference = localStorage.getItem('darkMode') === 'enabled';
 
-    // Apply the dark mode if the preference is saved as "enabled"
-    if (darkModePreference === 'enabled') {
-        body.classList.add('dark-mode');
-        modeIcon.textContent = '🌙';
+    // Apply dark mode if saved in localStorage
+    if (darkModePreference) {
+        document.body.classList.add('dark-mode');
+        document.getElementById('mode-icon').textContent = '🌙';
     } else {
-        body.classList.remove('dark-mode');
-        modeIcon.textContent = '☀️';
+        document.body.classList.remove('dark-mode');
+        document.getElementById('mode-icon').textContent = '☀️';
     }
 }
 
-// Load preferences as soon as the DOM is ready
+// Load dark mode preference on page load
 document.addEventListener('DOMContentLoaded', loadDarkModePreference);
 
 
