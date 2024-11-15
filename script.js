@@ -113,31 +113,35 @@ function toggleDarkMode() {
     const body = document.body;
     const modeIcon = document.getElementById('mode-icon');
 
-    // Toggle the dark mode class on the body
+    // Toggle the dark-mode class on the <body>
     const isDarkMode = body.classList.toggle('dark-mode');
 
-    // Update the icon
+    // Update the icon text (Sun or Moon)
     modeIcon.textContent = isDarkMode ? '🌙' : '☀️';
 
-    // Save the preference to localStorage
+    // Save the preference in localStorage
     localStorage.setItem('darkMode', isDarkMode ? 'enabled' : 'disabled');
 }
 
+// Load the user's preference on page load
 function loadDarkModePreference() {
-    const darkModePreference = localStorage.getItem('darkMode') === 'enabled';
+    const darkModePreference = localStorage.getItem('darkMode');
+    const body = document.body;
+    const modeIcon = document.getElementById('mode-icon');
 
-    // Apply dark mode if saved in localStorage
-    if (darkModePreference) {
-        document.body.classList.add('dark-mode');
-        document.getElementById('mode-icon').textContent = '🌙';
+    // Apply the saved preference
+    if (darkModePreference === 'enabled') {
+        body.classList.add('dark-mode');
+        modeIcon.textContent = '🌙'; // Set the moon icon
     } else {
-        document.body.classList.remove('dark-mode');
-        document.getElementById('mode-icon').textContent = '☀️';
+        body.classList.remove('dark-mode');
+        modeIcon.textContent = '☀️'; // Set the sun icon
     }
 }
 
-// Load dark mode preference on page load
+// Ensure the preference is applied when the page loads
 document.addEventListener('DOMContentLoaded', loadDarkModePreference);
+
 
 
 // Navigate between pages
