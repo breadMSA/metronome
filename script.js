@@ -75,10 +75,10 @@ function startMetronomeFromAdjustPage() {
 function adjustRandomBPM() {
     stopMetronome();
 
+    // Adjust BPM randomly
     const randomChange = Math.floor(Math.random() * 10) + 1;
     bpm += Math.random() < 0.5 ? -randomChange : randomChange;
     bpm = Math.max(15, Math.min(300, bpm));
-
     document.getElementById('bpm-display').textContent = bpm;
 
     // Display greeting if enabled
@@ -87,12 +87,22 @@ function adjustRandomBPM() {
         const greetings = ["嗨", "你好", "早上好", "fork use", "?"];
         const randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
         const greetingMessage = document.getElementById('greeting-message');
+
+        // Set the greeting text and apply animation
         greetingMessage.textContent = randomGreeting;
         greetingMessage.style.display = 'block';
+        greetingMessage.classList.add('animate');
+
+        // Remove the animation class after 2 seconds to reset for future clicks
+        setTimeout(() => {
+            greetingMessage.style.display = 'none';
+            greetingMessage.classList.remove('animate');
+        }, 2000);
     }
 
     startMetronome();
 }
+
 
 // Toggle dark mode
 function toggleDarkMode() {
