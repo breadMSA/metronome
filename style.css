@@ -73,7 +73,7 @@ body.dark-mode {
 /* Greeting Animation */
 @keyframes shrinkFade {
     0% {
-        font-size: 100vw; /* Large text fills the screen */
+        font-size: 500vw; /* Large text fills the screen */
         opacity: 1; /* Fully visible */
     }
     100% {
@@ -87,9 +87,9 @@ body.dark-mode {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 100vw; /* Default size */
+    font-size: 500vw; /* Default size */
     font-weight: bold;
-    color: #007bff;
+    color: #ff0000;
     opacity: 0; /* Start invisible */
     pointer-events: none; /* Prevent interaction */
 }
