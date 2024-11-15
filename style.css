@@ -7,25 +7,34 @@ body {
     padding: 0;
     background-color: #f7f7f7;
     color: #333;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
 }
 
+/* Dark Mode Styles */
+body.dark-mode {
+    background-color: #222; /* Dark background */
+    color: #f7f7f7; /* Light text for dark mode */
+}
+
+/* Mode Toggle Styles */
 #mode-toggle {
     cursor: pointer;
     font-size: 2.5rem; /* Larger icon size */
-    margin: 10px;
-    display: flex; /* Use flexbox to center the icon */
+    margin: 10px auto; /* Center horizontally with margin */
+    display: flex; /* Use flexbox for alignment */
     justify-content: center;
     align-items: center;
-    width: 60px; /* Larger width for easier clicking */
-    height: 60px; /* Larger height for easier clicking */
-    border-radius: 50%; /* Circular button */
+    width: 60px; /* Circular toggle button */
+    height: 60px;
+    border-radius: 50%; /* Circular shape */
     background-color: #f7f7f7; /* Light mode background */
     transition: background-color 0.3s ease, transform 0.3s ease;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional shadow for aesthetics */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional shadow */
 }
 
 body.dark-mode #mode-toggle {
-    background-color: #333; /* Dark mode background */
+    background-color: #333; /* Dark mode toggle button */
+    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.2); /* Light shadow for dark mode */
 }
 
 #mode-icon {
@@ -33,17 +42,11 @@ body.dark-mode #mode-toggle {
 }
 
 body.dark-mode #mode-icon {
-    transform: rotate(180deg); /* Rotate for effect */
-    color: #f39c12; /* Moon color */
+    transform: rotate(180deg); /* Rotate for a smooth transition */
+    color: #f39c12; /* Moon color for dark mode */
 }
 
-
-/* Dark Mode Styles */
-body.dark-mode {
-    background-color: #222;
-    color: #f7f7f7;
-}
-
+/* General Page Styles */
 .page {
     display: flex;
     flex-direction: column;
@@ -89,38 +92,34 @@ body.dark-mode {
     align-items: center;
     cursor: pointer;
     border-radius: 10px;
-    user-select: none;
+    user-select: none; /* Disable text selection */
 }
 
 #touch-area:hover {
     background-color: #0056b3;
 }
 
-.toggle-container {
-    margin: 10px;
-}
-
 /* Greeting Animation */
 @keyframes shrinkFade {
     0% {
-        font-size: 25vw; /* Large text fills the screen */
+        font-size: 30vw; /* Start larger for emphasis */
         opacity: 1; /* Fully visible */
     }
     100% {
-        font-size: 0; /* Shrinks to nothing */
+        font-size: 0; /* Shrink to nothing */
         opacity: 0; /* Fully transparent */
     }
 }
 
 #greeting-message {
     position: absolute;
-    top: 30%;
-    left: 50%;
+    top: 30%; /* Center vertically */
+    left: 50%; /* Center horizontally */
     transform: translate(-50%, -50%);
-    font-size: 25vw; /* Default size */
+    font-size: 30vw; /* Default size for greeting */
     font-weight: bold;
-    color: #ff0000;
-    opacity: 0; /* Start invisible */
+    color: #ff0000; /* Red color for emphasis */
+    opacity: 0; /* Initially invisible */
     pointer-events: none; /* Prevent interaction */
 }
 
@@ -128,3 +127,7 @@ body.dark-mode {
     animation: shrinkFade 3s forwards;
 }
 
+/* Additional Styling for Toggle Container */
+.toggle-container {
+    margin: 10px;
+}
