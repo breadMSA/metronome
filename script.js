@@ -159,6 +159,7 @@ function loadDarkModePreference() {
 function showPage(pageId) {
     document.getElementById('bpm-page').style.display = pageId === 'bpm-page' ? 'flex' : 'none';
     document.getElementById('metronome-page').style.display = pageId === 'metronome-page' ? 'flex' : 'none';
+    document.getElementById('mode-toggle').addEventListener('change', toggleDarkMode);
 }
 
 // Initial setup on page load
@@ -166,6 +167,7 @@ window.onload = async () => {
     showPage('bpm-page');
     await loadBeepSound(); // Load beep sound for the AudioContext
     validateBPM();
+    loadDarkModePreference(); // Load dark mode preference on page load
 };
 
 // BPM input validation and metronome start from adjustment page
