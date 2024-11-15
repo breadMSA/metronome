@@ -109,6 +109,7 @@ function adjustRandomBPM() {
 
 
 // Toggle dark mode
+// Function to toggle dark mode and update the icon
 function toggleDarkMode() {
     const body = document.body;
     const icon = document.getElementById('mode-icon');
@@ -123,18 +124,25 @@ function toggleDarkMode() {
     }
 }
 
+// Function to load the saved dark mode preference on page load
 function loadDarkModePreference() {
     const darkMode = localStorage.getItem('darkMode');
     const icon = document.getElementById('mode-icon');
 
     if (darkMode === 'enabled') {
         document.body.classList.add('dark-mode');
-        icon.textContent = '🌙';
+        icon.textContent = '🌙'; // Moon icon for dark mode
     } else {
         document.body.classList.remove('dark-mode');
-        icon.textContent = '☀️';
+        icon.textContent = '☀️'; // Sun icon for light mode
     }
 }
+
+// Call the function on page load to initialize dark mode
+window.onload = () => {
+    loadDarkModePreference();
+};
+
 
 
 // Navigate between pages
