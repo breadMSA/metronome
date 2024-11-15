@@ -137,18 +137,25 @@ function goBack() {
 
 function toggleDarkMode() {
     const body = document.body;
-    const button = document.getElementById('mode-toggle');
+    const modeToggle = document.getElementById('mode-toggle');
 
     if (body.classList.contains('dark-mode')) {
         body.classList.remove('dark-mode');
-        button.textContent = '🌞';  // Switch to sun emoji for light mode
+        modeToggle.textContent = '🌞'; // Sun emoji for light mode
         localStorage.setItem('darkMode', 'disabled');
     } else {
         body.classList.add('dark-mode');
-        button.textContent = '🌜';  // Switch to moon emoji for dark mode
+        modeToggle.textContent = '🌜'; // Moon emoji for dark mode
         localStorage.setItem('darkMode', 'enabled');
     }
 }
+
+// Ensure this is called when the document is fully loaded
+document.addEventListener('DOMContentLoaded', () => {
+    const modeToggle = document.getElementById('mode-toggle');
+    modeToggle.addEventListener('click', toggleDarkMode);
+    loadDarkModePreference(); // Call this here to set the correct initial state
+});
 
 function loadDarkModePreference() {
     const darkMode = localStorage.getItem('darkMode');
