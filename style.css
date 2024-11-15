@@ -15,6 +15,17 @@ body.dark-mode {
     color: #f7f7f7;
 }
 
+#mode-toggle {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+#mode-toggle:focus {
+    outline: none;
+}
+
 .page {
     display: flex;
     flex-direction: column;
