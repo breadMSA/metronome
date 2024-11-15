@@ -59,15 +59,13 @@ function scheduleBeep(time) {
 
 // Function to adjust BPM and restart the metronome
 function adjustBPM(change) {
-    stopMetronome(); // Stop metronome immediately
-
-    bpm = parseInt(document.getElementById('bpm-input').value) || bpm;
-    bpm += change;
-    bpm = Math.min(300, Math.max(15, bpm));
-    document.getElementById('bpm-input').value = bpm;
+    const bpmInput = document.getElementById('bpm-input');
+    let currentBPM = parseInt(bpmInput.value) || bpm;
+    currentBPM += change;
+    currentBPM = Math.max(15, Math.min(300, currentBPM)); // Clamp BPM between 15 and 300
+    bpmInput.value = currentBPM;
     validateBPM();
-
-    startMetronome(); // Restart with the new BPM
+    // Do not start the metronome here
 }
 
 // Real-time BPM validation and OK button enable/disable
@@ -89,12 +87,9 @@ function validateBPM() {
 
 // Function for starting metronome from the adjustment page
 function startMetronomeFromAdjustPage() {
-    bpm = parseInt(document.getElementById('bpm-input').value) || bpm;
+    bpm = parseInt(document.getElementById('bpm-input').value);
     document.getElementById('bpm-display').textContent = bpm;
-    
-    stopMetronome(); // Ensure metronome is stopped before starting
-    startMetronome(); // Start with current BPM
-    showPage('metronome-page');
+    startMetronome(); // This should only be called when explicitly starting the metronome
 }
 
 // Random BPM adjustment on the touch area click (1-10 units)
