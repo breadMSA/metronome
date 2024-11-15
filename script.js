@@ -110,19 +110,32 @@ function adjustRandomBPM() {
 
 // Toggle dark mode
 function toggleDarkMode() {
-    document.body.classList.toggle('dark-mode');
-    const isDarkMode = document.body.classList.contains('dark-mode');
-    localStorage.setItem('darkMode', isDarkMode ? 'enabled' : 'disabled');
-}
+    const body = document.body;
+    const icon = document.getElementById('mode-icon');
+    const isDarkMode = body.classList.toggle('dark-mode');
 
-// Load dark mode preference
-function loadDarkModePreference() {
-    const darkMode = localStorage.getItem('darkMode');
-    if (darkMode === 'enabled') {
-        document.body.classList.add('dark-mode');
-        document.getElementById('mode-toggle').checked = true;
+    if (isDarkMode) {
+        localStorage.setItem('darkMode', 'enabled');
+        icon.textContent = '🌙'; // Change to moon
+    } else {
+        localStorage.setItem('darkMode', 'disabled');
+        icon.textContent = '☀️'; // Change to sun
     }
 }
+
+function loadDarkModePreference() {
+    const darkMode = localStorage.getItem('darkMode');
+    const icon = document.getElementById('mode-icon');
+
+    if (darkMode === 'enabled') {
+        document.body.classList.add('dark-mode');
+        icon.textContent = '🌙';
+    } else {
+        document.body.classList.remove('dark-mode');
+        icon.textContent = '☀️';
+    }
+}
+
 
 // Navigate between pages
 function showPage(pageId) {
