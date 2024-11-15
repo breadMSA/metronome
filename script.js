@@ -113,14 +113,11 @@ function toggleDarkMode() {
     const body = document.body;
     const modeIcon = document.getElementById('mode-icon');
 
-    // Toggle the dark-mode class on the <body>
+    // Toggle the dark-mode class on the body
     const isDarkMode = body.classList.toggle('dark-mode');
 
-    // Update the icon text (Sun or Moon)
+    // Change the icon based on the mode
     modeIcon.textContent = isDarkMode ? '🌙' : '☀️';
-
-    // Save the preference in localStorage
-    localStorage.setItem('darkMode', isDarkMode ? 'enabled' : 'disabled');
 }
 
 // Load the user's preference on page load
