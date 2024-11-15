@@ -13,6 +13,12 @@
         <input type="checkbox" id="mode-toggle">
     </div>
 
+    <!-- Appearance Addition Checkbox -->
+    <div class="toggle-container">
+        <label for="greeting-toggle">Enable Appearance Addition:</label>
+        <input type="checkbox" id="greeting-toggle">
+    </div>
+
     <!-- BPM Adjustment Page (Page 1) -->
     <div id="bpm-page" class="page">
         <h1>Set Your BPM</h1>
@@ -31,6 +37,7 @@
         <button id="back-button" onclick="goBack()">← Go Back</button>
         <h1>BPM: <span id="bpm-display">60</span></h1>
         <div id="touch-area" onclick="adjustRandomBPM()">Tap to Adjust BPM</div>
+        <p id="greeting-message" style="display: none;">Hello!</p> <!-- Greeting message -->
     </div>
 
     <script src="script.js"></script>
