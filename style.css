@@ -9,6 +9,21 @@ body {
     color: #333;
 }
 
+#mode-toggle {
+    cursor: pointer;
+    font-size: 2rem;
+    margin: 10px;
+}
+
+#mode-icon {
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+body.dark-mode #mode-icon {
+    transform: rotate(180deg); /* Rotate for transition effect */
+    color: #f39c12; /* Moon color */
+}
+
 /* Dark Mode Styles */
 body.dark-mode {
     background-color: #222;
