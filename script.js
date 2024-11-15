@@ -1,39 +1,55 @@
-// Initialize variables for dark mode and BPM
+// Initialize variables
 let bpm = 60;
+let isMetronomeRunning = false;
+let metronomeInterval;
+let audioContext;
+let beepBuffer;
 
-// Toggle Dark Mode and Save Preference
-function toggleDarkMode() {
-    const body = document.body;
-    const darkModeEnabled = document.getElementById('mode-toggle').checked;
-
-    if (darkModeEnabled) {
-        body.classList.add('dark-mode');
-        localStorage.setItem('darkMode', 'enabled');
-    } else {
-        body.classList.remove('dark-mode');
-        localStorage.setItem('darkMode', 'disabled');
-    }
+// Load beep sound
+async function loadBeepSound() {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const response = await fetch('beep.mp3');
+    const arrayBuffer = await response.arrayBuffer();
+    beepBuffer = await audioContext.decodeAudioData(arrayBuffer);
 }
 
-// Load Dark Mode Preference on Page Load
-function loadDarkModePreference() {
-    const darkModeSetting = localStorage.getItem('darkMode');
-    const modeToggle = document.getElementById('mode-toggle');
-
-    if (darkModeSetting === 'enabled') {
-        document.body.classList.add('dark-mode');
-        modeToggle.checked = true;
-    } else {
-        document.body.classList.remove('dark-mode');
-        modeToggle.checked = false;
-    }
+// Play beep sound
+function playBeep() {
+    const source = audioContext.createBufferSource();
+    source.buffer = beepBuffer;
+    source.connect(audioContext.destination);
+    source.start(0);
 }
 
-// Validate BPM and Enable/Disable OK Button
+// Start metronome
+function startMetronome() {
+    if (isMetronomeRunning) return;
+    isMetronomeRunning = true;
+
+    const interval = 60000 / bpm; // Calculate interval in milliseconds
+    metronomeInterval = setInterval(() => {
+        playBeep();
+    }, interval);
+}
+
+// Stop metronome
+function stopMetronome() {
+    clearInterval(metronomeInterval);
+    isMetronomeRunning = false;
+}
+
+// Adjust BPM via buttons
+function adjustBPM(change) {
+    bpm += change;
+    bpm = Math.max(15, Math.min(300, bpm));
+    document.getElementById('bpm-input').value = bpm;
+    validateBPM();
+}
+
+// Validate BPM and enable/disable OK button
 function validateBPM() {
     const bpmInput = document.getElementById('bpm-input');
     const startButton = document.getElementById('start-button');
-
     bpm = parseInt(bpmInput.value);
 
     if (bpm < 15 || bpm > 300 || isNaN(bpm)) {
@@ -45,41 +61,76 @@ function validateBPM() {
     }
 }
 
-// Start Metronome and Navigate to the Adjust BPM Page
+// Start metronome from adjustment page
 function startMetronomeFromAdjustPage() {
-    if (bpm < 15 || bpm > 300) return; // Ensure BPM is valid
-
+    if (bpm < 15 || bpm > 300) return;
     document.getElementById('bpm-display').textContent = bpm;
+
+    stopMetronome();
+    startMetronome();
     showPage('metronome-page');
 }
 
-// Navigate Back to the BPM Adjustment Page
-function goBack() {
-    showPage('bpm-page');
-    document.getElementById('bpm-input').value = bpm;
-}
-
-// Adjust BPM Randomly on the Tap Button
+// Adjust BPM randomly on Tap button
 function adjustRandomBPM() {
-    let randomChange = Math.floor(Math.random() * 10) + 1;
+    stopMetronome();
+
+    const randomChange = Math.floor(Math.random() * 10) + 1;
     bpm += Math.random() < 0.5 ? -randomChange : randomChange;
-    bpm = Math.min(300, Math.max(15, bpm));
+    bpm = Math.max(15, Math.min(300, bpm));
+
     document.getElementById('bpm-display').textContent = bpm;
+
+    // Display greeting if enabled
+    const greetingToggle = document.getElementById('greeting-toggle').checked;
+    if (greetingToggle) {
+        const greetings = ["嗨", "你好", "早上好", "fork use", "?"];
+        const randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
+        const greetingMessage = document.getElementById('greeting-message');
+        greetingMessage.textContent = randomGreeting;
+        greetingMessage.style.display = 'block';
+    }
+
+    startMetronome();
 }
 
-// Show the Specified Page and Hide the Other
+// Toggle dark mode
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    const isDarkMode = document.body.classList.contains('dark-mode');
+    localStorage.setItem('darkMode', isDarkMode ? 'enabled' : 'disabled');
+}
+
+// Load dark mode preference
+function loadDarkModePreference() {
+    const darkMode = localStorage.getItem('darkMode');
+    if (darkMode === 'enabled') {
+        document.body.classList.add('dark-mode');
+        document.getElementById('mode-toggle').checked = true;
+    }
+}
+
+// Navigate between pages
 function showPage(pageId) {
     document.getElementById('bpm-page').style.display = pageId === 'bpm-page' ? 'flex' : 'none';
     document.getElementById('metronome-page').style.display = pageId === 'metronome-page' ? 'flex' : 'none';
 }
 
-// Initialize the Page
-window.onload = () => {
-    loadDarkModePreference();
+// Go back to adjustment page
+function goBack() {
+    stopMetronome();
     showPage('bpm-page');
+    document.getElementById('bpm-input').value = bpm;
+}
+
+// Initialize page
+window.onload = async () => {
+    loadDarkModePreference();
+    await loadBeepSound();
     validateBPM();
+    showPage('bpm-page');
 };
 
-// Event Listeners
+// Event listeners
 document.getElementById('mode-toggle').addEventListener('click', toggleDarkMode);
 document.getElementById('bpm-input').addEventListener('input', validateBPM);
