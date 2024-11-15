@@ -109,6 +109,30 @@ function adjustRandomBPM() {
     startMetronome(); // Restart with new BPM
 }
 
+function greetings() {
+    const greetingToggle = document.getElementById('greeting-toggle').checked;
+    if (greetingToggle) {
+        const greetings = ["幹", "操", "你在彈三小", "?", "去你的", "靠邀"];
+        const randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
+        const greetingMessage = document.getElementById('greeting-message');
+
+        // Set the greeting text and reset animation
+        greetingMessage.textContent = randomGreeting;
+        greetingMessage.style.display = 'block';
+
+        // Reset animation by removing and re-adding the class
+        greetingMessage.classList.remove('animate'); // Remove the class
+        void greetingMessage.offsetWidth; // Force reflow to reset the animation
+        greetingMessage.classList.add('animate'); // Reapply the class
+
+        // Ensure it stays visible for the full animation duration (e.g., 3 seconds)
+        setTimeout(() => {
+            greetingMessage.style.display = 'none';
+            greetingMessage.classList.remove('animate'); // Ensure it's clean for next use
+        }, 3000); // Match the animation duration
+    }
+}
+
 // Navigation to BPM adjustment page with metronome stop
 function goBack() {
     stopMetronome(); // Stop immediately
