@@ -124,24 +124,25 @@ function toggleDarkMode() {
     }
 }
 
-// Function to load the saved dark mode preference on page load
+// Load dark mode preference from localStorage
 function loadDarkModePreference() {
     const darkMode = localStorage.getItem('darkMode');
     const icon = document.getElementById('mode-icon');
 
     if (darkMode === 'enabled') {
         document.body.classList.add('dark-mode');
-        icon.textContent = '🌙'; // Moon icon for dark mode
+        icon.textContent = '🌙';
     } else {
         document.body.classList.remove('dark-mode');
-        icon.textContent = '☀️'; // Sun icon for light mode
+        icon.textContent = '☀️';
     }
 }
 
-// Call the function on page load to initialize dark mode
+// Ensure the dark mode preference is loaded on page load
 window.onload = () => {
     loadDarkModePreference();
 };
+
 
 
 
