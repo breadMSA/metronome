@@ -7,6 +7,18 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Dark/Light Mode Toggle -->
+    <div class="toggle-container">
+        <label for="mode-toggle">Dark Mode:</label>
+        <input type="checkbox" id="mode-toggle" onclick="toggleDarkMode()">
+    </div>
+
+    <!-- Appearance Addition Checkbox -->
+    <div class="toggle-container">
+        <label for="greeting-toggle">Enable Appearance Addition:</label>
+        <input type="checkbox" id="greeting-toggle" onclick="toggleGreeting()">
+    </div>
+
     <!-- BPM Adjustment Page (Page 1) -->
     <div id="bpm-page" class="page">
         <h1>Set Your BPM</h1>
@@ -16,7 +28,7 @@
             <input type="number" id="bpm-input" value="60" onblur="validateBPMOnBlur()">
             <button onclick="adjustBPM(1)">+</button>
         </div>
-        <button id="start-button" onclick="startMetronome()">OK</button>
+        <button id="start-button" onclick="startMetronomeFromAdjustPage()">OK</button>
         <p id="hint-message" style="color: red; display: none;">BPM must be between 15 and 300.</p>
     </div>
 
@@ -25,6 +37,7 @@
         <button id="back-button" onclick="goBack()">← Go Back</button>
         <h1>BPM: <span id="bpm-display">60</span></h1>
         <div id="touch-area" onclick="adjustRandomBPM()">Tap to Adjust BPM</div>
+        <p id="greeting-message" style="display: none;">Hello!</p> <!-- Greeting message area -->
     </div>
 
     <script src="script.js"></script>
