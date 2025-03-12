@@ -161,20 +161,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Add keyboard event listeners
     document.addEventListener('keydown', (event) => {
-        if (event.key === 'ArrowLeft') {
-            adjustBPM(-1); // Left arrow key decreases BPM
-        } else if (event.key === 'ArrowRight') {
-            adjustBPM(1); // Right arrow key increases BPM
-        } else if (event.key === ' ') { // Spacebar to start/stop metronome
-            event.preventDefault(); // Prevents scrolling when pressing space
-            if (isMetronomeRunning) {
-                stopMetronome();
-            } else {
-                startMetronome();
-            }
+    console.log("Key Pressed:", event.key); // Debugging log
+
+    if (event.key === 'ArrowLeft') {
+        console.log("Left arrow detected"); // Check if this prints
+        adjustBPM(-1); 
+    } else if (event.key === 'ArrowRight') {
+        console.log("Right arrow detected"); // Check if this prints
+        adjustBPM(1); 
+    } else if (event.key === ' ') { 
+        event.preventDefault();
+        console.log("Spacebar detected"); // Already working
+        if (isMetronomeRunning) {
+            stopMetronome();
+        } else {
+            startMetronome();
         }
-    });
+    }
 });
+
 
 
 function loadDarkModePreference() {
