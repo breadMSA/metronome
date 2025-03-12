@@ -64,9 +64,23 @@ function adjustBPM(change) {
     currentBPM += change;
     currentBPM = Math.max(15, Math.min(300, currentBPM)); // Clamp BPM between 15 and 300
     bpmInput.value = currentBPM;
-    bpm = currentBPM;  // **Update the global bpm variable**
+    bpm = currentBPM;  // Update the global bpm variable
+
     validateBPM();
+
+    // If the metronome is running, restart it with the new BPM
+    if (isMetronomeRunning) {
+        stopMetronome();
+        startMetronome();
+    }
+
+    // Also update the displayed BPM (if there's a display for it)
+    const bpmDisplay = document.getElementById('bpm-display');
+    if (bpmDisplay) {
+        bpmDisplay.textContent = bpm;
+    }
 }
+
 
 // Real-time BPM validation and OK button enable/disable
 function validateBPM() {
