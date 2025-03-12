@@ -158,7 +158,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const modeToggle = document.getElementById('mode-toggle');
     modeToggle.addEventListener('click', toggleDarkMode);
     loadDarkModePreference(); // Call this here to set the correct initial state
+
+    // Add keyboard event listeners
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowLeft') {
+            adjustBPM(-1); // Left arrow key decreases BPM
+        } else if (event.key === 'ArrowRight') {
+            adjustBPM(1); // Right arrow key increases BPM
+        } else if (event.key === ' ') { // Spacebar to start/stop metronome
+            event.preventDefault(); // Prevents scrolling when pressing space
+            if (isMetronomeRunning) {
+                stopMetronome();
+            } else {
+                startMetronome();
+            }
+        }
+    });
 });
+
 
 function loadDarkModePreference() {
     const darkMode = localStorage.getItem('darkMode');
