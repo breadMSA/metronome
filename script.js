@@ -177,12 +177,13 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', (event) => {
         // Check if the current page is the "adjust bpm" page
         const currentPage = document.querySelector('.page.active'); // Assuming pages have a class 'active' when displayed
+        console.log("Current Page:", currentPageId);
     
         if (event.key === 'ArrowLeft') {
             adjustBPM(-1); 
         } else if (event.key === 'ArrowRight') {
             adjustBPM(1); 
-        } else if (event.key === ' ' && currentPage && currentPage.id === 'bpm-page') { 
+        } else if (event.key === ' ' && currentPage.id === 'bpm-page') { 
             event.preventDefault();  // Prevent spacebar default action (e.g., scrolling)
             if (isMetronomeRunning) {
                 stopMetronome();
