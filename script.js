@@ -161,23 +161,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Add keyboard event listeners
     document.addEventListener('keydown', (event) => {
-    console.log("Key Pressed:", event.key); // Debugging log
+        console.log("Key Pressed:", event.key); // Debugging log
 
-    if (event.key === 'ArrowLeft') {
-        console.log("Left arrow detected"); // Check if this prints
-        adjustBPM(-1); 
-    } else if (event.key === 'ArrowRight') {
-        console.log("Right arrow detected"); // Check if this prints
-        adjustBPM(1); 
-    } else if (event.key === ' ') { 
-        event.preventDefault();
-        console.log("Spacebar detected"); // Already working
-        if (isMetronomeRunning) {
-            stopMetronome();
-        } else {
-            startMetronome();
+        if (event.key === 'ArrowLeft') {
+            console.log("Left arrow detected"); // Check if this prints
+            adjustBPM(-1); 
+        } else if (event.key === 'ArrowRight') {
+            console.log("Right arrow detected"); // Check if this prints
+            adjustBPM(1); 
+        } else if (event.key === ' ') { 
+            event.preventDefault();
+            console.log("Spacebar detected"); // Already working
+            if (isMetronomeRunning) {
+                stopMetronome();
+            } else {
+                startMetronome();
+            }
         }
-    }
+    });
 });
 
 
