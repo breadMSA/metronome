@@ -175,26 +175,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Add keyboard event listeners
     document.addEventListener('keydown', (event) => {
-        // Get the current page ID based on visibility
-        const currentPage = document.getElementById('metronome-page').style.display === 'flex' ? 'metronome-page' : 'bpm-page';
-
-        // Left and right arrows work on both pages
+        const isOnBpmPage = document.getElementById('bpm-page').style.display === 'flex';
+    
         if (event.key === 'ArrowLeft') {
             adjustBPM(-1);
         } else if (event.key === 'ArrowRight') {
             adjustBPM(1);
         } 
-
-        // Spacebar should only work on the metronome-page
-        else if (event.key === ' ' && currentPage === 'metronome-page') { 
-            event.preventDefault();  // Prevent scrolling
+        
+        // Spacebar only works on metronome-page
+        else if (event.key === ' ' && document.getElementById('metronome-page').style.display === 'flex') { 
+            event.preventDefault();
             if (isMetronomeRunning) {
                 stopMetronome();
             } else {
                 startMetronome();
             }
+        } 
+        
+        // Pressing Enter on bpm-page should start the metronome
+        else if (event.key === 'Enter' && isOnBpmPage) {
+            event.preventDefault();  // Prevent default form behavior (if any)
+            startMetronomeFromAdjustPage();
         }
     });
+    
 });
 
 
