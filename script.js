@@ -158,11 +158,11 @@ function toggleDarkMode() {
 
     if (body.classList.contains('dark-mode')) {
         body.classList.remove('dark-mode');
-        modeToggle.textContent = '🌞淺色背景'; // Sun emoji for light mode
+        modeToggle.textContent = '🌞'; // Sun emoji for light mode
         localStorage.setItem('darkMode', 'disabled');
     } else {
         body.classList.add('dark-mode');
-        modeToggle.textContent = '🌜深色背景'; // Moon emoji for dark mode
+        modeToggle.textContent = '🌜'; // Moon emoji for dark mode
         localStorage.setItem('darkMode', 'enabled');
     }
 }
