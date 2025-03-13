@@ -158,11 +158,11 @@ function toggleDarkMode() {
 
     if (body.classList.contains('dark-mode')) {
         body.classList.remove('dark-mode');
-        modeToggle.textContent = '🌞'; // Sun emoji for light mode
+        modeToggle.textContent = '🌞淺色背景'; // Sun emoji for light mode
         localStorage.setItem('darkMode', 'disabled');
     } else {
         body.classList.add('dark-mode');
-        modeToggle.textContent = '🌜'; // Moon emoji for dark mode
+        modeToggle.textContent = '🌜深色背景'; // Moon emoji for dark mode
         localStorage.setItem('darkMode', 'enabled');
     }
 }
@@ -175,19 +175,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Add keyboard event listeners
     document.addEventListener('keydown', (event) => {
-        // Get the current page ID (this is from the showPage function)
-        const currentPage = document.getElementById('bpm-page').style.display === 'flex' ? 'bpm-page' : 'metronome-page';
-    
-        // Handle left and right arrow keys
+        // Get the current page ID based on visibility
+        const currentPage = document.getElementById('metronome-page').style.display === 'flex' ? 'metronome-page' : 'bpm-page';
+
+        // Left and right arrows work on both pages
         if (event.key === 'ArrowLeft') {
             adjustBPM(-1);
         } else if (event.key === 'ArrowRight') {
             adjustBPM(1);
         } 
-    
-        // Handle spacebar only on "Adjust BPM" page
-        else if (event.key === ' ' && currentPage === 'bpm-page') { 
-            event.preventDefault();  // Prevent spacebar default action (e.g., scrolling)
+
+        // Spacebar should only work on the metronome-page
+        else if (event.key === ' ' && currentPage === 'metronome-page') { 
+            event.preventDefault();  // Prevent scrolling
             if (isMetronomeRunning) {
                 stopMetronome();
             } else {
